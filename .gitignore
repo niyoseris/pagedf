@@ -1,0 +1,11 @@
+# Yerel araç durum dosyaları
+.claude/
+
+# Paket arşivleri
+*.zip
+*.crx
+*.pem
+
+# İşletim sistemi / editör artıkları
+.DS_Store
+Thumbs.db

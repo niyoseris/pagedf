@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pagedf</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app">
+    <header class="head">
+      <div class="brand">
+        <img class="logo" src="icons/icon48.png" alt="" width="36" height="36">
+        <div class="brand-text">
+          <h1>Pagedf</h1>
+          <p>Sayfayı göründüğü gibi PDF'e kaydet</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="page-card" id="pageCard">
+      <div class="page-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor"
+             stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M3 12h18"></path>
+          <path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18z"></path>
+        </svg>
+      </div>
+      <div class="page-text">
+        <div class="page-title" id="pageTitle">Sekme bilgisi alınıyor…</div>
+        <div class="page-host" id="pageHost"></div>
+      </div>
+    </section>
+
+    <form id="form" novalidate>
+      <div class="grid-2">
+        <label class="field">
+          <span class="field-label">Kağıt boyutu</span>
+          <select id="paper" name="paper">
+            <option value="a4">A4 · 210 × 297 mm</option>
+            <option value="letter">Letter · 8,5 × 11 in</option>
+            <option value="legal">Legal · 8,5 × 14 in</option>
+            <option value="a3">A3 · 297 × 420 mm</option>
+            <option value="a5">A5 · 148 × 210 mm</option>
+            <option value="tabloid">Tabloid · 11 × 17 in</option>
+            <option value="css">Sayfanın kendi boyutu</option>
+          </select>
+        </label>
+
+        <div class="field">
+          <span class="field-label">Yön</span>
+          <div class="seg" role="radiogroup" aria-label="Sayfa yönü">
+            <label><input type="radio" name="orientation" value="portrait"><span>Dikey</span></label>
+            <label><input type="radio" name="orientation" value="landscape"><span>Yatay</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2 grid-margins">
+        <div class="field">
+          <span class="field-label">Kenar boşluğu</span>
+          <div class="seg seg-4" role="radiogroup" aria-label="Kenar boşluğu">
+            <label><input type="radio" name="margin" value="none"><span>Yok</span></label>
+            <label><input type="radio" name="margin" value="narrow"><span>Dar</span></label>
+            <label><input type="radio" name="margin" value="normal"><span>Normal</span></label>
+            <label><input type="radio" name="margin" value="wide"><span>Geniş</span></label>
+          </div>
+        </div>
+
+        <label class="field">
+          <span class="field-label">Ölçek</span>
+          <select id="scale" name="scale">
+            <option value="0.5">%50</option>
+            <option value="0.75">%75</option>
+            <option value="0.9">%90</option>
+            <option value="1">%100</option>
+            <option value="1.1">%110</option>
+            <option value="1.25">%125</option>
+            <option value="1.5">%150</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="switches" role="group" aria-label="Görünüm ayarları">
+        <label class="switch">
+          <span class="switch-text">
+            <span class="switch-title">Arka planlar ve renkler</span>
+            <span class="switch-desc">Renkli arka plan, kutular ve temalar korunur</span>
+          </span>
+          <input type="checkbox" name="printBackground" checked>
+          <span class="switch-ui" aria-hidden="true"></span>
+        </label>
+
+        <label class="switch">
+          <span class="switch-text">
+            <span class="switch-title">Ekran görünümünü koru</span>
+            <span class="switch-desc">Yazdırma stilleri yerine ekrandaki görünüm kullanılır</span>
+          </span>
+          <input type="checkbox" name="screenMedia" checked>
+          <span class="switch-ui" aria-hidden="true"></span>
+        </label>
+
+        <label class="switch">
+          <span class="switch-text">
+            <span class="switch-title">Görselleri önceden yükle</span>
+            <span class="switch-desc">Aşağı kaydırarak geç yüklenen görselleri hazırlar</span>
+          </span>
+          <input type="checkbox" name="lazyImages" checked>
+          <span class="switch-ui" aria-hidden="true"></span>
+        </label>
+      </div>
+
+      <details class="advanced">
+        <summary>Gelişmiş</summary>
+        <div class="switches switches-compact">
+          <label class="switch">
+            <span class="switch-text">
+              <span class="switch-title">Üst/alt bilgi</span>
+              <span class="switch-desc">Başlık, tarih, adres ve sayfa numarası ekler</span>
+            </span>
+            <input type="checkbox" name="headerFooter">
+            <span class="switch-ui" aria-hidden="true"></span>
+          </label>
+
+          <label class="switch">
+            <span class="switch-text">
+              <span class="switch-title">Kaydetme konumunu sor</span>
+              <span class="switch-desc">Kapalıysa İndirilenler klasörüne kaydedilir</span>
+            </span>
+            <input type="checkbox" name="saveAs" checked>
+            <span class="switch-ui" aria-hidden="true"></span>
+          </label>
+        </div>
+      </details>
+
+      <button type="submit" class="save" id="saveBtn">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path>
+          <path d="M14 3v5h5"></path>
+        </svg>
+        <span id="saveLabel">PDF olarak kaydet</span>
+      </button>
+
+      <div class="status" id="status" role="status" aria-live="polite" hidden>
+        <span class="spinner" aria-hidden="true"></span>
+        <span class="status-text" id="statusText"></span>
+      </div>
+    </form>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
